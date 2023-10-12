@@ -48,7 +48,7 @@ Avatars should be in VRM 1.0 format. Clients should filter avatars for potential
 
 Some servers may want to restrict height, so this will be a server-authoritative value. Servers may not even listen to height change requests.
 
-`on_height_change(float)` server -> client
+`on_height_change(peer_id, float)` server -> client
 
 `request_height_change(float)` client -> server
 

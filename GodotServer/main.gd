@@ -73,11 +73,11 @@ func on_world_change(file: PackedByteArray):
 
 @rpc("any_peer", "reliable")
 func request_world_change_url(url: String):
-	pass
+	on_world_change_url.rpc(url)
 
 @rpc("any_peer", "reliable")
 func request_world_change(file: PackedByteArray):
-	pass
+	on_world_change.rpc(file)
 
 
 ## Avatar Loading
@@ -90,12 +90,13 @@ func peer_changed_avatar(file: PackedByteArray):
 ## Height Change
 
 @rpc("reliable")
-func on_height_change(height: float):
+func on_height_change(peer_id: int, height: float):
 	pass
 
 @rpc("any_peer", "reliable")
 func request_height_change(height: float):
-	pass
+	var peer_id = multiplayer.get_remote_sender_id()
+	on_height_change.rpc(peer_id, height)
 
 
 ## Interaction
