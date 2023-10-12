@@ -31,3 +31,86 @@ func _ready():
 	assert(multiplayer.is_server())
 	
 	print("[INFO] Server running on port " + str(port))
+
+
+## Voice
+
+@rpc("any_peer", "unreliable")
+func on_voice_packet_received(packet: PackedByteArray):
+	pass
+
+
+## Bones
+
+@rpc("any_peer", "unreliable")
+func on_bone_update(updated_bones: PackedByteArray):
+	pass
+
+
+## Blendshapes
+
+@rpc("any_peer", "unreliable")
+func on_blendshape_update(updated_blendshapes: PackedByteArray):
+	pass
+
+
+## Position
+
+@rpc("any_peer", "unreliable")
+func on_position_update(updated_position: Vector2):
+	pass
+
+
+## World Loading
+
+@rpc("reliable")
+func on_world_change_url(url: String):
+	pass
+
+@rpc("reliable")
+func on_world_change(file: PackedByteArray):
+	pass
+
+@rpc("any_peer", "reliable")
+func request_world_change_url(url: String):
+	pass
+
+@rpc("any_peer", "reliable")
+func request_world_change(file: PackedByteArray):
+	pass
+
+
+## Avatar Loading
+
+@rpc("any_peer", "reliable")
+func peer_changed_avatar(file: PackedByteArray):
+	pass
+
+
+## Height Change
+
+@rpc("reliable")
+func on_height_change(height: float):
+	pass
+
+@rpc("any_peer", "reliable")
+func request_height_change(height: float):
+	pass
+
+
+## Interaction
+
+@rpc("any_peer", "reliable")
+func interact():
+	pass
+
+@rpc("any_peer", "reliable")
+func grab():
+	pass
+
+
+## Playspace Updates
+
+@rpc("any_peer", "reliable")
+func update_playspace(file: PackedByteArray):
+	pass

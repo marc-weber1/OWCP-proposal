@@ -30,11 +30,11 @@ Events are more infrequent, reliable packets that do not require any kind of con
 
 Worlds should be in GLTF format with GLTF extensions and OMI extensions. Servers and clients should both filter worlds for potential attack vectors.
 
-`on_world_change(url)` server -> client
+`on_world_change_url(url)` server -> client
 
 `on_world_change(file)` server -> client
 
-`request_world_change(url)` client -> server
+`request_world_change_url(url)` client -> server
 
 `request_world_change(file)` client -> server
 
