@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://6dynhv0j4xcb"]
+
+[ext_resource type="Script" path="res://desktop_client.gd" id="1_s6yvp"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_7xptn"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_s6yvp")
+
+[node name="Mic" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_7xptn")
+autoplay = true
+bus = &"Mic"
