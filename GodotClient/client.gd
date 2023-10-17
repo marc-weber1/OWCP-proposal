@@ -1,15 +1,22 @@
 extends Node
 class_name Client
 
-@export var SERVER_URL = "gaydogs.club"
+@export var SERVER_URL = ""
 @export var SERVER_PORT = 80
 
 var user_scene = preload("res://user.tscn")
 
+var mic_capture: VOIPInputCapture
 var users = {}
 
 
 func _ready():
+	
+	# Setup voice sending
+	
+	var mic_bus = AudioServer.get_bus_index("Mic")
+	mic_capture = AudioServer.get_bus_effect(mic_bus, 0)
+	mic_capture.packet_ready.connect(self._voice_packet_ready)
 	
 	# Connect to Server
 	
@@ -19,9 +26,17 @@ func _ready():
 	multiplayer.connection_failed.connect(_connection_failed)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	
+	print("Connecting to ", SERVER_URL, ":", SERVER_PORT, " ...")
+	
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(SERVER_URL, SERVER_PORT)
 	multiplayer.multiplayer_peer = peer
+
+
+func _process(_delta):
+	
+	# Get new voice packets to send
+	mic_capture.send_test_packets()
 
 
 # Server Connections
@@ -53,7 +68,11 @@ func _server_disconnected():
 @rpc("any_peer", "unreliable")
 func on_voice_packet_received(packet: PackedByteArray):
 	var sender_id = multiplayer.get_remote_sender_id()
-	users[sender_id].stream.push_packet(packet)
+	users[sender_id].get_node("Voice").stream.push_packet(packet)
+	
+func _voice_packet_ready(packet: PackedByteArray):
+	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+		on_voice_packet_received.rpc(packet)
 
 
 ## Bones
